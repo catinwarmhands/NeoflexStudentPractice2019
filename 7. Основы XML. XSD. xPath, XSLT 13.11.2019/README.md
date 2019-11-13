@@ -214,9 +214,13 @@
 ## Результаты
 
 1. [XML](https://www.w3schools.com/quiztest/quiztest.asp?qtest=XML)
-	![test xml](testxml.jpg)
+
+![test xml](testxml.jpg)
+
 2. [XSD](http://www.academictutorials.com/quiz.asp?id=25)
-	![test xsd](testxsd.jpg)
+
+![test xsd](testxsd.jpg)
+
 3. [xPath](http://www.quizful.net/test/xpath_basics) и 4. [XSLT](http://www.quizful.net/test/xsl_xslt)
 	Что бы проходить тесты на этом сайте, нужно или задонатить, или копирайтить на форуме. 
 
