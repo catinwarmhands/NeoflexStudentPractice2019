@@ -1,0 +1,494 @@
+<svg id="mermaid-1573676648604" width="100%" xmlns="http://www.w3.org/2000/svg" height="100%" style="max-width:1660px;" viewBox="-60 -10 1660 1152"><style>
+
+
+
+#mermaid-1573676648604 .label {
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family);
+  color: #333; }
+
+#mermaid-1573676648604 .label text {
+  fill: #333; }
+
+#mermaid-1573676648604 .node rect,
+#mermaid-1573676648604 .node circle,
+#mermaid-1573676648604 .node ellipse,
+#mermaid-1573676648604 .node polygon {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1px; }
+
+#mermaid-1573676648604 .node .label {
+  text-align: center; }
+
+#mermaid-1573676648604 .node.clickable {
+  cursor: pointer; }
+
+#mermaid-1573676648604 .arrowheadPath {
+  fill: #333333; }
+
+#mermaid-1573676648604 .edgePath .path {
+  stroke: #333333;
+  stroke-width: 1.5px; }
+
+#mermaid-1573676648604 .edgeLabel {
+  background-color: #e8e8e8;
+  text-align: center; }
+
+#mermaid-1573676648604 .cluster rect {
+  fill: #ffffde;
+  stroke: #aaaa33;
+  stroke-width: 1px; }
+
+#mermaid-1573676648604 .cluster text {
+  fill: #333; }
+
+#mermaid-1573676648604 div.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family);
+  font-size: 12px;
+  background: #ffffde;
+  border: 1px solid #aaaa33;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100; }
+
+#mermaid-1573676648604 .actor {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1573676648604 text.actor {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1573676648604 .actor-line {
+  stroke: grey; }
+
+#mermaid-1573676648604 .messageLine0 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1573676648604 .messageLine1 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1573676648604 #arrowhead {
+  fill: #333; }
+
+#mermaid-1573676648604 .sequenceNumber {
+  fill: white; }
+
+#mermaid-1573676648604 #sequencenumber {
+  fill: #333; }
+
+#mermaid-1573676648604 #crosshead path {
+  fill: #333 !important;
+  stroke: #333 !important; }
+
+#mermaid-1573676648604 .messageText {
+  fill: #333;
+  stroke: none; }
+
+#mermaid-1573676648604 .labelBox {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1573676648604 .labelText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1573676648604 .loopText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1573676648604 .loopLine {
+  stroke-width: 2;
+  stroke-dasharray: '2 2';
+  stroke: #CCCCFF; }
+
+#mermaid-1573676648604 .note {
+  stroke: #aaaa33;
+  fill: #fff5ad; }
+
+#mermaid-1573676648604 .noteText {
+  fill: black;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family);
+  font-size: 14px; }
+
+#mermaid-1573676648604 .activation0 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1573676648604 .activation1 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1573676648604 .activation2 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+
+#mermaid-1573676648604 .mermaid-main-font {
+  font-family: "trebuchet ms", verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .section {
+  stroke: none;
+  opacity: 0.2; }
+
+#mermaid-1573676648604 .section0 {
+  fill: rgba(102, 102, 255, 0.49); }
+
+#mermaid-1573676648604 .section2 {
+  fill: #fff400; }
+
+#mermaid-1573676648604 .section1,
+#mermaid-1573676648604 .section3 {
+  fill: white;
+  opacity: 0.2; }
+
+#mermaid-1573676648604 .sectionTitle0 {
+  fill: #333; }
+
+#mermaid-1573676648604 .sectionTitle1 {
+  fill: #333; }
+
+#mermaid-1573676648604 .sectionTitle2 {
+  fill: #333; }
+
+#mermaid-1573676648604 .sectionTitle3 {
+  fill: #333; }
+
+#mermaid-1573676648604 .sectionTitle {
+  text-anchor: start;
+  font-size: 11px;
+  text-height: 14px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+
+#mermaid-1573676648604 .grid .tick {
+  stroke: lightgrey;
+  opacity: 0.3;
+  shape-rendering: crispEdges; }
+#mermaid-1573676648604   .grid .tick text {
+    font-family: 'trebuchet ms', verdana, arial;
+    font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .grid path {
+  stroke-width: 0; }
+
+
+#mermaid-1573676648604 .today {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px; }
+
+
+
+#mermaid-1573676648604 .task {
+  stroke-width: 2; }
+
+#mermaid-1573676648604 .taskText {
+  text-anchor: middle;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .taskText:not([font-size]) {
+  font-size: 11px; }
+
+#mermaid-1573676648604 .taskTextOutsideRight {
+  fill: black;
+  text-anchor: start;
+  font-size: 11px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .taskTextOutsideLeft {
+  fill: black;
+  text-anchor: end;
+  font-size: 11px; }
+
+
+#mermaid-1573676648604 .task.clickable {
+  cursor: pointer; }
+
+#mermaid-1573676648604 .taskText.clickable {
+  cursor: pointer;
+  fill: #003163 !important;
+  font-weight: bold; }
+
+#mermaid-1573676648604 .taskTextOutsideLeft.clickable {
+  cursor: pointer;
+  fill: #003163 !important;
+  font-weight: bold; }
+
+#mermaid-1573676648604 .taskTextOutsideRight.clickable {
+  cursor: pointer;
+  fill: #003163 !important;
+  font-weight: bold; }
+
+
+#mermaid-1573676648604 .taskText0,
+#mermaid-1573676648604 .taskText1,
+#mermaid-1573676648604 .taskText2,
+#mermaid-1573676648604 .taskText3 {
+  fill: white; }
+
+#mermaid-1573676648604 .task0,
+#mermaid-1573676648604 .task1,
+#mermaid-1573676648604 .task2,
+#mermaid-1573676648604 .task3 {
+  fill: #8a90dd;
+  stroke: #534fbc; }
+
+#mermaid-1573676648604 .taskTextOutside0,
+#mermaid-1573676648604 .taskTextOutside2 {
+  fill: black; }
+
+#mermaid-1573676648604 .taskTextOutside1,
+#mermaid-1573676648604 .taskTextOutside3 {
+  fill: black; }
+
+
+#mermaid-1573676648604 .active0,
+#mermaid-1573676648604 .active1,
+#mermaid-1573676648604 .active2,
+#mermaid-1573676648604 .active3 {
+  fill: #bfc7ff;
+  stroke: #534fbc; }
+
+#mermaid-1573676648604 .activeText0,
+#mermaid-1573676648604 .activeText1,
+#mermaid-1573676648604 .activeText2,
+#mermaid-1573676648604 .activeText3 {
+  fill: black !important; }
+
+
+#mermaid-1573676648604 .done0,
+#mermaid-1573676648604 .done1,
+#mermaid-1573676648604 .done2,
+#mermaid-1573676648604 .done3 {
+  stroke: grey;
+  fill: lightgrey;
+  stroke-width: 2; }
+
+#mermaid-1573676648604 .doneText0,
+#mermaid-1573676648604 .doneText1,
+#mermaid-1573676648604 .doneText2,
+#mermaid-1573676648604 .doneText3 {
+  fill: black !important; }
+
+
+#mermaid-1573676648604 .crit0,
+#mermaid-1573676648604 .crit1,
+#mermaid-1573676648604 .crit2,
+#mermaid-1573676648604 .crit3 {
+  stroke: #ff8888;
+  fill: red;
+  stroke-width: 2; }
+
+#mermaid-1573676648604 .activeCrit0,
+#mermaid-1573676648604 .activeCrit1,
+#mermaid-1573676648604 .activeCrit2,
+#mermaid-1573676648604 .activeCrit3 {
+  stroke: #ff8888;
+  fill: #bfc7ff;
+  stroke-width: 2; }
+
+#mermaid-1573676648604 .doneCrit0,
+#mermaid-1573676648604 .doneCrit1,
+#mermaid-1573676648604 .doneCrit2,
+#mermaid-1573676648604 .doneCrit3 {
+  stroke: #ff8888;
+  fill: lightgrey;
+  stroke-width: 2;
+  cursor: pointer;
+  shape-rendering: crispEdges; }
+
+#mermaid-1573676648604 .milestone {
+  transform: rotate(45deg) scale(0.8, 0.8); }
+
+#mermaid-1573676648604 .milestoneText {
+  font-style: italic; }
+
+#mermaid-1573676648604 .doneCritText0,
+#mermaid-1573676648604 .doneCritText1,
+#mermaid-1573676648604 .doneCritText2,
+#mermaid-1573676648604 .doneCritText3 {
+  fill: black !important; }
+
+#mermaid-1573676648604 .activeCritText0,
+#mermaid-1573676648604 .activeCritText1,
+#mermaid-1573676648604 .activeCritText2,
+#mermaid-1573676648604 .activeCritText3 {
+  fill: black !important; }
+
+#mermaid-1573676648604 .titleText {
+  text-anchor: middle;
+  font-size: 18px;
+  fill: black;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 g.classGroup text {
+  fill: #9370DB;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family);
+  font-size: 10px; }
+#mermaid-1573676648604   g.classGroup text .title {
+    font-weight: bolder; }
+
+#mermaid-1573676648604 g.classGroup rect {
+  fill: #ECECFF;
+  stroke: #9370DB; }
+
+#mermaid-1573676648604 g.classGroup line {
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 .classLabel .box {
+  stroke: none;
+  stroke-width: 0;
+  fill: #ECECFF;
+  opacity: 0.5; }
+
+#mermaid-1573676648604 .classLabel .label {
+  fill: #9370DB;
+  font-size: 10px; }
+
+#mermaid-1573676648604 .relation {
+  stroke: #9370DB;
+  stroke-width: 1;
+  fill: none; }
+
+#mermaid-1573676648604 #compositionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #compositionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #aggregationStart {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #aggregationEnd {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #dependencyStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #dependencyEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #extensionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 #extensionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 .commit-id,
+#mermaid-1573676648604 .commit-msg,
+#mermaid-1573676648604 .branch-label {
+  fill: lightgrey;
+  color: lightgrey;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .pieTitleText {
+  text-anchor: middle;
+  font-size: 25px;
+  fill: black;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 .slice {
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 g.stateGroup text {
+  fill: #9370DB;
+  stroke: none;
+  font-size: 10px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+#mermaid-1573676648604 g.stateGroup text {
+  fill: #9370DB;
+  stroke: none;
+  font-size: 10px; }
+
+#mermaid-1573676648604 g.stateGroup .state-title {
+  font-weight: bolder;
+  fill: black; }
+
+#mermaid-1573676648604 g.stateGroup rect {
+  fill: #ECECFF;
+  stroke: #9370DB; }
+
+#mermaid-1573676648604 g.stateGroup line {
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1573676648604 .transition {
+  stroke: #9370DB;
+  stroke-width: 1;
+  fill: none; }
+
+#mermaid-1573676648604 .stateGroup .composit {
+  fill: white;
+  border-bottom: 1px; }
+
+#mermaid-1573676648604 .state-note {
+  stroke: #aaaa33;
+  fill: #fff5ad; }
+#mermaid-1573676648604   .state-note text {
+    fill: black;
+    stroke: none;
+    font-size: 10px; }
+
+#mermaid-1573676648604 .stateLabel .box {
+  stroke: none;
+  stroke-width: 0;
+  fill: #ECECFF;
+  opacity: 0.5; }
+
+#mermaid-1573676648604 .stateLabel text {
+  fill: black;
+  font-size: 10px;
+  font-weight: bold;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-family: var(--mermaid-font-family); }
+
+:root {
+  --mermaid-font-family: '"trebuchet ms", verdana, arial';
+  --mermaid-font-family: "Comic Sans MS", "Comic Sans", cursive; }
+
+:root { --mermaid-font-family: "trebuchet ms", verdana, arial;}</style><style>#mermaid-1573676648604 {
+    color: rgba(0, 0, 0, 0.65);
+    font: ;
+  }</style><g></g><g><line id="actor16" x1="75" y1="5" x2="75" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="0" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="75" dy="0">Оператор</tspan></text></g><g><line id="actor17" x1="275" y1="5" x2="275" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="200" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="275" dy="0">Oracle CRM</tspan></text></g><g><line id="actor18" x1="475" y1="5" x2="475" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="400" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="475" dy="0">Docsvision</tspan></text></g><g><line id="actor19" x1="675" y1="5" x2="675" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="600" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="675" dy="0">Customer Hub</tspan></text></g><g><line id="actor20" x1="875" y1="5" x2="875" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="800" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="875" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="875" dy="0">FICO</tspan></text></g><g><line id="actor21" x1="1075" y1="5" x2="1075" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="1000" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1075" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1075" dy="0">Oracle SOA</tspan></text></g><g><line id="actor22" x1="1275" y1="5" x2="1275" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="1200" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1275" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1275" dy="0">БИСквит</tspan></text></g><g><line id="actor23" x1="1475" y1="5" x2="1475" y2="1141" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="1400" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1475" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1475" dy="0">Profile</tspan></text></g><defs><marker id="arrowhead" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto"><path d="M 0,0 V 4 L6,2 Z"></path></marker></defs><defs><marker id="crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="16" refY="4"><path fill="black" stroke="#000000" stroke-width="1px" d="M 9,2 V 6 L16,4 Z" style="stroke-dasharray: 0, 0;"></path><path fill="none" stroke="#000000" stroke-width="1px" d="M 0,1 L 6,7 M 6,1 L 0,7" style="stroke-dasharray: 0, 0;"></path></marker></defs><defs><marker id="sequencenumber" refX="15" refY="15" markerWidth="60" markerHeight="40" orient="auto"><circle cx="15" cy="15" r="6"></circle></marker></defs><g><text x="175" y="93" class="messageText" style="text-anchor: middle;">Заявка</text><line x1="75" y1="100" x2="275" y2="100" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="fill: none;"></line></g><g><rect x="270" y="102" fill="#EDF2AE" stroke="#666" width="10" height="499" rx="0" ry="0" class="activation0"></rect></g><g><text x="377.5" y="128" class="messageText" style="text-anchor: middle;">Запрос сканов документов</text><line x1="280" y1="135" x2="475" y2="135" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="470" y="137" fill="#EDF2AE" stroke="#666" width="10" height="128" rx="0" ry="0" class="activation0"></rect></g><g><text x="577.5" y="163" class="messageText" style="text-anchor: middle;">Поиск id</text><line x1="480" y1="170" x2="675" y2="170" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="670" y="172" fill="#EDF2AE" stroke="#666" width="10" height="58" rx="0" ry="0" class="activation0"></rect></g><g><text x="575" y="223" class="messageText" style="text-anchor: middle;">id</text><line x1="670" y1="230" x2="480" y2="230" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="375" y="258" class="messageText" style="text-anchor: middle;">Сканы</text><line x1="470" y1="265" x2="280" y2="265" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><line x1="260" y1="180" x2="690" y2="180" class="loopLine"></line><line x1="690" y1="180" x2="690" y2="275" class="loopLine"></line><line x1="260" y1="275" x2="690" y2="275" class="loopLine"></line><line x1="260" y1="180" x2="260" y2="275" class="loopLine"></line><polygon points="260,180 310,180 310,193 301.6,200 260,200" class="labelBox"></polygon><text x="267.5" y="195" class="labelText"><tspan x="267.5">opt</tspan></text><text x="475" y="195" class="loopText" style="text-anchor: middle;"><tspan x="475">[ id клиента найден ]</tspan></text></g><g><text x="577.5" y="303" class="messageText" style="text-anchor: middle;">Заявка на рассмотрение</text><line x1="280" y1="310" x2="875" y2="310" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="870" y="312" fill="#EDF2AE" stroke="#666" width="10" height="138" rx="0" ry="0" class="activation0"></rect></g><g><text x="575" y="338" class="messageText" style="text-anchor: middle;">Статус</text><line x1="870" y1="345" x2="280" y2="345" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="575" y="398" class="messageText" style="text-anchor: middle;">Обновление статуса</text><line x1="870" y1="405" x2="280" y2="405" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><line x1="260" y1="355" x2="890" y2="355" class="loopLine"></line><line x1="890" y1="355" x2="890" y2="415" class="loopLine"></line><line x1="260" y1="415" x2="890" y2="415" class="loopLine"></line><line x1="260" y1="355" x2="260" y2="415" class="loopLine"></line><polygon points="260,355 310,355 310,368 301.6,375 260,375" class="labelBox"></polygon><text x="267.5" y="370" class="labelText"><tspan x="267.5">loop</tspan></text><text x="575" y="370" class="loopText" style="text-anchor: middle;"><tspan x="575">[ Рассмотрение заявки (до 3 дней) ]</tspan></text></g><g><text x="575" y="443" class="messageText" style="text-anchor: middle;">Решение о выдаче кредита</text><line x1="870" y1="450" x2="280" y2="450" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="172.5" y="503" class="messageText" style="text-anchor: middle;">Уведомление клиента</text><line x1="270" y1="510" x2="75" y2="510" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><rect x="0" y="520" fill="#EDF2AE" stroke="#666" width="150" height="36" rx="0" ry="0" class="note"></rect><text x="-4" y="544" class="noteText"><tspan x="16">Конец</tspan></text></g><g><line x1="-10" y1="460" x2="290" y2="460" class="loopLine"></line><line x1="290" y1="460" x2="290" y2="566" class="loopLine"></line><line x1="-10" y1="566" x2="290" y2="566" class="loopLine"></line><line x1="-10" y1="460" x2="-10" y2="566" class="loopLine"></line><polygon points="-10,460 40,460 40,473 31.6,480 -10,480" class="labelBox"></polygon><text x="-2.5" y="475" class="labelText"><tspan x="-2.5">opt</tspan></text><text x="140" y="475" class="loopText" style="text-anchor: middle;"><tspan x="140">[ Заявка не одобрена ]</tspan></text></g><g><text x="172.5" y="594" class="messageText" style="text-anchor: middle;">Согласование с клиентом</text><line x1="270" y1="601" x2="75" y2="601" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><rect x="70" y="603" fill="#EDF2AE" stroke="#666" width="10" height="33" rx="0" ry="0" class="activation0"></rect></g><g><text x="177.5" y="629" class="messageText" style="text-anchor: middle;">Согласие от клиента</text><line x1="80" y1="636" x2="275" y2="636" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="fill: none;"></line></g><g><rect x="270" y="638" fill="#EDF2AE" stroke="#666" width="10" height="418" rx="0" ry="0" class="activation0"></rect></g><g><text x="677.5" y="664" class="messageText" style="text-anchor: middle;">Подготовка кредитного договора</text><line x1="280" y1="671" x2="1075" y2="671" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="1070" y="673" fill="#EDF2AE" stroke="#666" width="10" height="348" rx="0" ry="0" class="activation0"></rect></g><g><text x="1177.5" y="699" class="messageText" style="text-anchor: middle;">Резервирование номера договора</text><line x1="1080" y1="706" x2="1275" y2="706" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="fill: none;"></line></g><g><rect x="1270" y="708" fill="#EDF2AE" stroke="#666" width="10" height="33" rx="0" ry="0" class="activation0"></rect></g><g><text x="1175" y="734" class="messageText" style="text-anchor: middle;">Номер договора</text><line x1="1270" y1="741" x2="1080" y2="741" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="1277.5" y="769" class="messageText" style="text-anchor: middle;">Создание кредитного договора</text><line x1="1080" y1="776" x2="1475" y2="776" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="1470" y="778" fill="#EDF2AE" stroke="#666" width="10" height="33" rx="0" ry="0" class="activation0"></rect></g><g><text x="1275" y="804" class="messageText" style="text-anchor: middle;">Кредитный договор</text><line x1="1470" y1="811" x2="1080" y2="811" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="1277.5" y="864" class="messageText" style="text-anchor: middle;">Запрос страховой программы</text><line x1="1080" y1="871" x2="1475" y2="871" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="1470" y="873" fill="#EDF2AE" stroke="#666" width="10" height="33" rx="0" ry="0" class="activation0"></rect></g><g><text x="1275" y="899" class="messageText" style="text-anchor: middle;">Страховая программа</text><line x1="1470" y1="906" x2="1080" y2="906" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><line x1="1060" y1="821" x2="1490" y2="821" class="loopLine"></line><line x1="1490" y1="821" x2="1490" y2="916" class="loopLine"></line><line x1="1060" y1="916" x2="1490" y2="916" class="loopLine"></line><line x1="1060" y1="821" x2="1060" y2="916" class="loopLine"></line><polygon points="1060,821 1110,821 1110,834 1101.6,841 1060,841" class="labelBox"></polygon><text x="1067.5" y="836" class="labelText"><tspan x="1067.5">opt</tspan></text><text x="1275" y="836" class="loopText" style="text-anchor: middle;"><tspan x="1275">[ Договор предусматривает страховку ]</tspan></text></g><g><text x="1277.5" y="944" class="messageText" style="text-anchor: middle;">Запрос графика и стоимости</text><line x1="1080" y1="951" x2="1475" y2="951" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="1470" y="953" fill="#EDF2AE" stroke="#666" width="10" height="33" rx="0" ry="0" class="activation0"></rect></g><g><text x="1275" y="979" class="messageText" style="text-anchor: middle;">График и стоимость</text><line x1="1470" y1="986" x2="1080" y2="986" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="675" y="1014" class="messageText" style="text-anchor: middle;">Все собранные данные</text><line x1="1070" y1="1021" x2="280" y2="1021" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="172.5" y="1049" class="messageText" style="text-anchor: middle;">Передача документов клиенту</text><line x1="270" y1="1056" x2="75" y2="1056" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#crosshead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><rect x="0" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="75" dy="0">Оператор</tspan></text></g><g><rect x="200" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="275" dy="0">Oracle CRM</tspan></text></g><g><rect x="400" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="475" dy="0">Docsvision</tspan></text></g><g><rect x="600" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="675" dy="0">Customer Hub</tspan></text></g><g><rect x="800" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="875" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="875" dy="0">FICO</tspan></text></g><g><rect x="1000" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1075" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1075" dy="0">Oracle SOA</tspan></text></g><g><rect x="1200" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1275" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1275" dy="0">БИСквит</tspan></text></g><g><rect x="1400" y="1076" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="1475" y="1108.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px;"><tspan x="1475" dy="0">Profile</tspan></text></g></svg>
