@@ -1,14 +1,35 @@
-# Решения лаб по PLSQL
+# Решения лаб по PL/SQL
+
+- [Лаба 1](#лаба-1)
+- [Лаба 2](#лаба-2)
+- [Лаба 3](#лаба-3)
+- [Лаба 4](#лаба-4)
+- [Лаба 5](#лаба-5)
+- [Лаба 6](#лаба-6)
+- [Лаба 7](#лаба-7)
+- [Лаба 8](#лаба-8)
+- [Лаба 9](#лаба-9)
+- [Лаба 10](#лаба-10)
+- [Лаба 11](#лаба-11)
+- [Лаба 12](#лаба-12)
+- [Лаба 13](#лаба-13)
+- [Лаба 14](#лаба-14)
+- [Лаба 15](#лаба-15)
+- [Лаба 16](#лаба-16)
+- [Лаба 17](#лаба-17)
+- [Лаба 18](#лаба-18)
+- [Лаба 19](#лаба-19)
+- [Лаба 20](#лаба-20)
 
 ## Лаба 1
 
 1. г
 2. 
 ```sql
-  SET SERVEROUTPUT ON
-  BEGIN
-  	DBMS_OUTPUT.PUT_LINE('Hello World');
-  END;
+SET SERVEROUTPUT ON
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hello World');
+END;
 ```
 ![lab1](lab1.jpg)
 
@@ -19,38 +40,39 @@
 3. б
 4. 
 ```sql
-  SET SERVEROUTPUT ON
-  DECLARE
+SET SERVEROUTPUT ON
+DECLARE
     v_today DATE := SYSDATE;
     v_tomorrow v_today%TYPE;
-  BEGIN
+BEGIN
     v_tomorrow := v_today + 1;
     DBMS_OUTPUT.PUT_LINE('Hello World');
     DBMS_OUTPUT.PUT_LINE('Today: ' || v_today);
     DBMS_OUTPUT.PUT_LINE('Tomorrow: ' || v_tomorrow);
-  END;
+END;
 ```
 ![lab2_1](lab2_1.jpg)
+
 5.
 
 ```sql
-  SET SERVEROUTPUT ON
-  VARIABLE b_basic_percent NUMBER
-  VARIABLE b_pf_percent NUMBER
-  DECLARE
+SET SERVEROUTPUT ON
+VARIABLE b_basic_percent NUMBER
+VARIABLE b_pf_percent NUMBER
+DECLARE
     v_today DATE := SYSDATE;
     v_tomorrow v_today%TYPE;
-  BEGIN
+BEGIN
     v_tomorrow := v_today + 1;
     DBMS_OUTPUT.PUT_LINE('Hello World');
     DBMS_OUTPUT.PUT_LINE('Today: ' || v_today);
     DBMS_OUTPUT.PUT_LINE('Tomorrow: ' || v_tomorrow);
     :b_basic_percent := 45;
     :b_pf_percent := 12;
-  END;
-  /
-  PRINT b_basic_percent
-  PRINT b_pf_percent
+END;
+/
+PRINT b_basic_percent
+PRINT b_pf_percent
 ```
 ![lab2_2](lab2_2.jpg)
 
@@ -58,20 +80,20 @@
 
 1.
 ```
-а. v_weight == 2 (NUMBER)
-б. v_new_locn == 'Western Europe' (VARCHAR2)
-в. v_weight == 601 (NUMBER)
-г. v_message == 'Product 10012 is in stock' (VARCHAR2)
+а. v_weight = 2 (NUMBER)
+б. v_new_locn = 'Western Europe' (VARCHAR2)
+в. v_weight = 601 (NUMBER)
+г. v_message = 'Product 10012 is in stock' (VARCHAR2)
 д. v_new_locn вне зоны видимости
 ```
 2.
 ```
-а. customer == 201 (NUMBER)
-б. name == 'Unisports' (VARCHAR2)
-в. credit_rating == 'GOOD' (VARCHAR2)
-г. customer == 'Womansport' (VARCHAR2)
+а. customer = 201 (NUMBER)
+б. name = 'Unisports' (VARCHAR2)
+в. credit_rating = 'GOOD' (VARCHAR2)
+г. customer = 'Womansport' (VARCHAR2)
 д. name вне зоны видимости
-  е. credit_rating == 'GOOD' (VARCHAR2)
+е. credit_rating = 'GOOD' (VARCHAR2)
 ```
 3.
 ```sql
@@ -86,9 +108,9 @@ DECLARE
 BEGIN
       SELECT first_name, salary INTO v_fname, v_emp_sal
       FROM employees WHERE employee_id=110;
-      DBMS_OUTPUT.PUT_LINE('Hello '|| v_fname);
-      DBMS_OUTPUT.PUT_LINE('Salary : '||v_emp_sal);
-      DBMS_OUTPUT.PUT_LINE('Pf: ' ||v_emp_sal*v_basic_percent/100*v_pf_percent/100);
+      DBMS_OUTPUT.PUT_LINE('Hello ' || v_fname);
+      DBMS_OUTPUT.PUT_LINE('Salary : ' || v_emp_sal);
+      DBMS_OUTPUT.PUT_LINE('Pf: ' || v_emp_sal*v_basic_percent/100*v_pf_percent/100);
       /*
       :b_basic_percent := 45;
       :b_pf_percent := 12;
@@ -96,3 +118,94 @@ BEGIN
 END;
 ```
 ![lab3](lab3.jpg)
+
+## Лаба 4
+
+1.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    v_max_deptno NUMBER;
+BEGIN
+    SELECT MAX(department_id) INTO v_max_deptno FROM departments;
+    DBMS_OUTPUT.PUT_LINE('Max: ' || v_max_deptno);
+END;
+```
+![lab4_1](lab4_1.jpg)
+
+2.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    v_max_deptno NUMBER;
+    v_dept_name departments.department_name%TYPE := 'Education';
+    v_dept_id NUMBER;
+BEGIN
+    SELECT MAX(department_id) INTO v_max_deptno FROM departments;
+    v_dept_id := v_max_deptno + 10;
+    INSERT INTO departments(department_name, department_id, location_id)
+    VALUES (v_dept_name, v_dept_id, NULL);
+    DBMS_OUTPUT.PUT_LINE('Rows inserted: ' || SQL%ROWCOUNT);
+END;
+/
+SELECT * FROM departments where department_name = 'Education';
+```
+![lab4_2](lab4_2.jpg)
+
+3.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    v_max_deptno NUMBER;
+    v_dept_name departments.department_name%TYPE := 'Education';
+    v_dept_id NUMBER;
+BEGIN
+    SELECT MAX(department_id) INTO v_max_deptno FROM departments;
+    v_dept_id := v_max_deptno;
+    UPDATE departments SET location_id=3000 WHERE department_id=v_dept_id;
+END;
+/
+SELECT * FROM departments where department_name = 'Education';
+DELETE FROM departments where department_name = 'Education';
+```
+![lab4_3](lab4_3.jpg)
+
+## Лаба 5
+
+1.
+```sql
+SET SERVEROUTPUT ON
+BEGIN
+    FOR i in 1..10 LOOP
+        IF i NOT IN (6, 8) THEN
+            INSERT INTO messages VALUES (i);
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+/
+SELECT * FROM messages;
+```
+![lab5_1](lab5_1.jpg)
+
+2.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    v_empno emp.employee_id%TYPE := 176;
+    v_asterisk emp.stars%TYPE := NULL;
+    v_sal emp.salary%TYPE;
+BEGIN
+    SELECT NVL(ROUND(salary/1000), 0) INTO v_sal
+    FROM emp WHERE employee_id = v_empno;
+    FOR i IN 1..v_sal LOOP
+        v_asterisk := v_asterisk || '*';
+    END LOOP;
+    UPDATE emp SET stars = v_asterisk WHERE employee_id = v_empno;
+    COMMIT;
+END;
+/
+SELECT employee_id,salary, stars FROM emp WHERE employee_id=176;
+```
+
+![lab5_2](lab5_2.jpg)
