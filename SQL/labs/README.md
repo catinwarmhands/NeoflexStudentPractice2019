@@ -220,7 +220,7 @@ DECLARE
     v_countryid varchar2(2):= 'CA';
 BEGIN
     SELECT * INTO v_country_record FROM countries
-    WHERE country_id = UPPER(v_countryid);
+    WHERE country_id = v_countryid;
     DBMS_OUTPUT.PUT_LINE('Country Id: ' || v_country_record.country_id);
     DBMS_OUTPUT.PUT_LINE('Country Name: ' || v_country_record.country_name);
     DBMS_OUTPUT.PUT_LINE('Region: ' || v_country_record.region_id);
@@ -238,11 +238,12 @@ DECLARE
     v_deptno NUMBER := 0;
 BEGIN
     FOR i IN 1..f_loop_count LOOP
-        v_deptno:=v_deptno + 10;
-        SELECT department_name INTO my_dept_table(i) FROM departments WHERE department_id = v_deptno;
+        v_deptno := v_deptno + 10;
+        SELECT department_name INTO my_dept_table(i)
+        FROM departments WHERE department_id = v_deptno;
     END LOOP;
     FOR i IN 1..f_loop_count LOOP
-        DBMS_OUTPUT.PUT_LINE (my_dept_table(i));
+        DBMS_OUTPUT.PUT_LINE(my_dept_table(i));
     END LOOP;
 END;
 ```
@@ -271,3 +272,95 @@ BEGIN
 END;
 ```
 ![lab6_3](lab6_3.jpg)
+
+## Лаба 7
+
+1.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    v_num NUMBER := 5;
+    v_sal employees.salary%TYPE;
+    CURSOR c_emp_cursor IS
+        SELECT DISTINCT salary
+        FROM employees
+        ORDER BY salary DESC;
+BEGIN
+    OPEN c_emp_cursor;
+    FETCH c_emp_cursor INTO v_sal;
+    WHILE c_emp_cursor%ROWCOUNT <= v_num AND c_emp_cursor%FOUND LOOP
+        INSERT INTO top_salaries(salary) VALUES (v_sal);
+        FETCH c_emp_cursor INTO v_sal;
+    END LOOP;
+    CLOSE c_emp_cursor;
+END;
+/
+SELECT * FROM top_salaries;
+TRUNCATE TABLE top_salaries;
+```
+![lab7_1](lab7_1.jpg)
+
+2.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    V_deptno NUMBER := &p_deptno;
+    CURSOR c_emp_cursor IS
+        SELECT last_name, salary, manager_id
+        FROM employees
+        WHERE department_id = v_deptno;
+BEGIN
+    FOR emp_record IN c_emp_cursor LOOP
+        IF emp_record.salary < 5000 AND (emp_record.manager_id IN (101, 124)) THEN
+            DBMS_OUTPUT.PUT_LINE (emp_record.last_name || ' Due for a raise');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE (emp_record.last_name || ' Not Due for a raise');
+        END IF;
+    END LOOP;
+END;
+```
+![lab7_2](lab7_2).jpg
+
+3.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    CURSOR c_dept_cursor IS
+        SELECT department_id,department_name
+        FROM departments
+        WHERE department_id < 100
+        ORDER BY department_id;
+    CURSOR c_emp_cursor(v_deptno NUMBER) IS
+        SELECT last_name, job_id, hire_date, salary
+        FROM employees
+        WHERE department_id = v_deptno
+        AND employee_id < 120;
+    v_current_deptno departments.department_id%TYPE;
+    v_current_dname departments.department_name%TYPE;
+    v_ename employees.last_name%TYPE;
+    v_job employees.job_id%TYPE;
+    v_hiredate employees.hire_date%TYPE;
+    v_sal employees.salary%TYPE;
+BEGIN
+    OPEN c_dept_cursor;
+    LOOP
+        FETCH c_dept_cursor INTO v_current_deptno,v_current_dname;
+        EXIT WHEN c_dept_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE ('Department: ' || v_current_deptno || ' ' || v_current_dname);
+        IF c_emp_cursor%ISOPEN THEN
+            CLOSE c_emp_cursor;
+        END IF;
+        OPEN c_emp_cursor (v_current_deptno);
+        LOOP
+            FETCH c_emp_cursor INTO v_ename, v_job, v_hiredate, v_sal;
+            EXIT WHEN c_emp_cursor%NOTFOUND;
+            DBMS_OUTPUT.PUT_LINE (v_ename || ' ' || v_job || ' ' || v_hiredate || ' ' || v_sal);
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('----------------------------------------------------------------------------------------');
+        CLOSE c_emp_cursor;       
+    END LOOP;
+    CLOSE c_dept_cursor;
+END;
+```
+![lab7_3](lab7_3.jpg)
+

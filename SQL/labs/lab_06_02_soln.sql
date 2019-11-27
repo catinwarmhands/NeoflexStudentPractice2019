@@ -2,8 +2,8 @@ SET SERVEROUTPUT ON
 DECLARE
     TYPE dept_table_type IS TABLE OF departments.department_name%TYPE INDEX BY PLS_INTEGER;
     my_dept_table dept_table_type;
-    f_loop_count NUMBER (2) := 10;
-    v_deptno NUMBER (4) := 0;
+    f_loop_count NUMBER := 10;
+    v_deptno NUMBER := 0;
 BEGIN
     FOR i IN 1..f_loop_count LOOP
         v_deptno:=v_deptno+10;
