@@ -364,3 +364,43 @@ END;
 ```
 ![lab7_3](lab7_3.jpg)
 
+## Лаба 8
+
+1.
+```sql
+SET SERVEROUTPUT ON
+TRUNCATE TABLE messages;
+DECLARE
+    v_ename employees.last_name%TYPE;
+    v_emp_sal employees.salary%TYPE := 6000;
+BEGIN
+    SELECT last_name INTO v_ename FROM employees WHERE salary = v_emp_sal;
+    INSERT INTO messages (results) VALUES (v_ename || ' - ' || v_emp_sal);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        INSERT INTO messages VALUES ('No employee with a salary of ' || TO_CHAR(v_emp_sal));
+    WHEN TOO_MANY_ROWS THEN
+        INSERT INTO messages (results) VALUES ('More than one employee with a salary of ' || TO_CHAR(v_emp_sal));
+    WHEN OTHERS THEN
+        INSERT INTO messages (results) VALUES ('Some other error occurred.');
+END;
+/
+SELECT * FROM messages;
+```
+![lab8_1](lab8_1.jpg)
+
+2.
+```sql
+SET SERVEROUTPUT ON
+DECLARE
+    e_childrecord_exists EXCEPTION;
+    PRAGMA EXCEPTION_INIT(e_childrecord_exists, -02292);
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(' Удаление отдела 40........');
+    DELETE FROM departments WHERE department_id=40;
+EXCEPTION
+    WHEN e_childrecord_exists THEN
+        DBMS_OUTPUT.PUT_LINE(' Cannot delete this department. There are employees in this department (child records exist.)');
+END;
+```
+![lab8_2](lab8_2.jpg)
