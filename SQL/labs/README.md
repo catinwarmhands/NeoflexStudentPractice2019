@@ -319,7 +319,7 @@ BEGIN
     END LOOP;
 END;
 ```
-![lab7_2](lab7_2).jpg
+![lab7_2](lab7_2.jpg)
 
 3.
 ```sql
@@ -404,3 +404,166 @@ EXCEPTION
 END;
 ```
 ![lab8_2](lab8_2.jpg)
+
+## Лаба 9
+
+1.
+```sql
+CREATE OR REPLACE PROCEDURE add_job (
+    p_job_id jobs.job_id%TYPE,
+    p_job_title jobs.job_title%TYPE) IS
+BEGIN
+    INSERT INTO jobs (job_id, job_title) VALUES (p_job_id, p_job_title);
+    COMMIT;
+END add_job;
+```
+```sql
+EXECUTE add_job('IT_DBA', 'Database Administrator')
+SELECT * FROM jobs WHERE job_id = 'IT_DBA';
+EXECUTE add_job ('ST_MAN', 'Stock Manager')
+```
+![lab9_1](lab9_1.jpg)
+
+В таблице jobs уже есть запись с job_id= 'ST_MAN' с ограничением UNIQUE
+
+2.
+```sql
+CREATE OR REPLACE PROCEDURE upd_job(
+    p_job_id IN jobs.job_id%TYPE,
+    p_job_title IN jobs.job_title%TYPE) IS
+BEGIN
+    UPDATE jobs SET job_title = p_job_title WHERE job_id = p_job_id;
+    IF SQL%NOTFOUND THEN
+        RAISE NO_DATA_FOUND;
+    END IF;
+END upd_job;
+```
+```sql
+EXECUTE upd_job ('IT_DBA', 'Data Administrator')
+SELECT * FROM jobs WHERE job_id = 'IT_DBA';
+EXECUTE upd_job ('IT_WEB', 'Web Master')
+```
+![lab9_2](lab9_2.jpg)
+
+
+3.
+```sql
+CREATE OR REPLACE PROCEDURE del_job (
+    p_jobid jobs.job_id%TYPE) IS
+BEGIN
+    DELETE FROM jobs WHERE job_id = p_jobid;
+    IF SQL%NOTFOUND THEN
+        RAISE NO_DATA_FOUND;
+    END IF;
+END del_job;
+```
+```sql
+EXECUTE del_job ('IT_DBA')
+SELECT * FROM jobs WHERE job_id = 'IT_DBA';
+EXECUTE del_job ('IT_WEB')
+```
+![lab9_3](lab9_3.jpg)
+
+
+4.
+```sql
+CREATE OR REPLACE PROCEDURE get_employee(
+    p_emp_id IN employees.employee_id%TYPE,
+    p_sal  OUT employees.salary%TYPE,
+    p_job  OUT employees.job_id%TYPE) IS
+BEGIN
+    SELECT salary, job_id INTO p_sal, p_job FROM employees WHERE employee_id = p_emp_id;
+END get_employee;
+```
+```sql
+VARIABLE v_salary NUMBER
+VARIABLE v_job VARCHAR2(15)
+
+EXECUTE get_employee(120, :v_salary, :v_job)
+PRINT v_salary v_job;
+EXECUTE get_employee(300, :v_salary, :v_job)
+```
+![lab9_4](lab9_4.jpg)
+
+Не найден работник с таким job_id
+
+## Лаба 10
+
+1.
+
+```sql
+CREATE OR REPLACE FUNCTION get_job(
+    p_jobid IN jobs.job_id%type)
+    RETURN jobs.job_title%type IS
+    v_title jobs.job_title%type;
+BEGIN
+    SELECT job_title INTO v_title FROM jobs WHERE job_id = p_jobid;
+    RETURN v_title;
+END get_job;
+```
+```sql
+VARIABLE b_title VARCHAR2(35)
+EXECUTE :b_title := get_job ('SA_REP');
+PRINT b_title
+```
+![lab10_1](lab10_1.jpg)
+
+2.
+```sql
+CREATE OR REPLACE FUNCTION get_annual_comp(
+    p_sal  IN employees.salary%TYPE,
+    p_comm IN employees.commission_pct%TYPE)
+    RETURN NUMBER IS
+BEGIN
+    RETURN (NVL(p_sal, 0) * 12 + (NVL(p_comm, 0) * NVL(p_sal, 0) * 12));
+END get_annual_comp;
+```
+```sql
+SELECT employee_id, last_name, get_annual_comp(salary,commission_pct) AS "Annual Compensation" FROM employees WHERE department_id = 30
+```
+![lab10_2](lab10_2.jpg)
+
+
+3.
+```sql
+CREATE OR REPLACE FUNCTION valid_deptid(
+    p_dept_id IN departments.department_id%TYPE)
+    RETURN BOOLEAN IS
+    v_temp departments.department_id%TYPE;
+BEGIN
+    SELECT 1 INTO v_temp FROM departments WHERE department_id = p_dept_id;
+    RETURN TRUE;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN FALSE;
+END valid_deptid;
+```
+```sql
+CREATE OR REPLACE PROCEDURE add_employee(
+    p_first_name employees.first_name%TYPE,
+    p_last_name employees.last_name%TYPE,
+    p_email employees.email%TYPE,
+    p_job employees.job_id%TYPE DEFAULT 'SA_REP',
+    p_mgr employees.manager_id%TYPE DEFAULT 145,
+    p_sal employees.salary%TYPE DEFAULT 1000,
+    p_comm employees.commission_pct%TYPE DEFAULT 0,
+    p_deptid employees.department_id%TYPE DEFAULT 30) IS
+BEGIN
+    IF valid_deptid(p_deptid) THEN
+        INSERT INTO employees(employee_id, first_name, last_name, email, job_id, manager_id, hire_date, salary, commission_pct, department_id)
+        VALUES (employees_seq.NEXTVAL, p_first_name, p_last_name, p_email, p_job, p_mgr, TRUNC(SYSDATE), p_sal, p_comm, p_deptid);
+    ELSE
+        RAISE NO_DATA_FOUND;
+    END IF;
+END add_employee;
+```
+```sql
+EXECUTE add_employee('Joe', 'Harris', 'JAHARRIS', p_deptid => 80)
+SELECT first_name, last_name, email FROM employees WHERE first_name = 'Joe';
+EXECUTE add_employee('Jane', 'Harris', 'JAHARRIS', p_deptid => 15)
+```
+
+![lab10_3](lab10_3.jpg)
+
+Не найден отдел с id = 15
+
