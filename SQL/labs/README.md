@@ -493,7 +493,7 @@ EXECUTE get_employee(300, :v_salary, :v_job)
 
 ```sql
 CREATE OR REPLACE FUNCTION get_job(
-    p_jobid IN jobs.job_id%type)
+    p_jobid jobs.job_id%type)
     RETURN jobs.job_title%type IS
     v_title jobs.job_title%type;
 BEGIN
@@ -511,8 +511,8 @@ PRINT b_title
 2.
 ```sql
 CREATE OR REPLACE FUNCTION get_annual_comp(
-    p_sal  IN employees.salary%TYPE,
-    p_comm IN employees.commission_pct%TYPE)
+    p_sal  employees.salary%TYPE,
+    p_comm employees.commission_pct%TYPE)
     RETURN NUMBER IS
 BEGIN
     RETURN (NVL(p_sal, 0) * 12 + (NVL(p_comm, 0) * NVL(p_sal, 0) * 12));
@@ -527,7 +527,7 @@ SELECT employee_id, last_name, get_annual_comp(salary,commission_pct) AS "Annual
 3.
 ```sql
 CREATE OR REPLACE FUNCTION valid_deptid(
-    p_dept_id IN departments.department_id%TYPE)
+    p_dept_id departments.department_id%TYPE)
     RETURN BOOLEAN IS
     v_temp departments.department_id%TYPE;
 BEGIN
@@ -566,4 +566,233 @@ EXECUTE add_employee('Jane', 'Harris', 'JAHARRIS', p_deptid => 15)
 ![lab10_3](lab10_3.jpg)
 
 Не найден отдел с id = 15
+
+## Лаба 11
+
+1.
+```sql
+CREATE OR REPLACE PACKAGE job_pkg IS
+    PROCEDURE add_job(p_job_id jobs.job_id%TYPE, p_jobtitle jobs.job_title%TYPE);
+    PROCEDURE del_job(p_job_id jobs.job_id%TYPE);
+    PROCEDURE upd_job(p_job_id jobs.job_id%TYPE, p_jobtitle jobs.job_title%TYPE);
+    FUNCTION  get_job(p_job_id jobs.job_id%type) RETURN jobs.job_title%type;
+END job_pkg;
+```
+```sql
+CREATE OR REPLACE PACKAGE BODY job_pkg AS
+    PROCEDURE add_job(p_job_id jobs.job_id%TYPE, p_job_title jobs.job_title%TYPE) IS
+    BEGIN
+        INSERT INTO jobs (job_id, job_title) VALUES (p_job_id, p_job_title);
+        COMMIT;
+    END add_job;
+    
+    PROCEDURE del_job(p_job_id jobs.job_id%TYPE) IS
+    BEGIN
+        DELETE FROM jobs WHERE job_id = p_job_id;
+        IF SQL%NOTFOUND THEN
+            RAISE NO_DATA_FOUND;
+        END IF;
+    END del_job;
+    
+    PROCEDURE upd_job(p_job_id IN jobs.job_id%TYPE, p_job_title IN jobs.job_title%TYPE) IS
+    BEGIN
+        UPDATE jobs SET job_title = p_job_title WHERE job_id = p_job_id;
+        IF SQL%NOTFOUND THEN
+            RAISE NO_DATA_FOUND;
+        END IF;
+    END upd_job;
+    
+    FUNCTION get_job(p_job_id jobs.job_id%type) RETURN jobs.job_title%type
+    IS v_title jobs.job_title%TYPE;
+    BEGIN
+        SELECT job_title INTO v_title FROM jobs WHERE job_id = p_job_id;
+        RETURN v_title;
+    END get_job;
+END job_pkg;
+```
+```sql
+EXECUTE job_pkg.add_job('IT_SYSAN', 'Systems Analyst')
+SELECT * FROM jobs WHERE job_id = 'IT_SYSAN';
+```
+![lab11_1](lab11_1.jpg)
+
+2.
+```sql
+CREATE OR REPLACE PACKAGE emp_pkg IS
+    PROCEDURE add_employee(
+        p_first_name employees.first_name%TYPE,
+        p_last_name employees.last_name%TYPE,
+        p_email employees.email%TYPE,
+        p_job employees.job_id%TYPE DEFAULT 'SA_REP',
+        p_mgr employees.manager_id%TYPE DEFAULT 145,
+        p_sal employees.salary%TYPE DEFAULT 1000,
+        p_comm employees.commission_pct%TYPE DEFAULT 0,
+        p_dept_id employees.department_id%TYPE DEFAULT 30);
+    PROCEDURE get_employee(
+        p_emp_id IN employees.employee_id%TYPE,
+        p_sal  OUT employees.salary%TYPE,
+        p_job  OUT employees.job_id%TYPE);
+END emp_pkg;
+```
+```sql
+CREATE OR REPLACE PACKAGE BODY emp_pkg AS
+    PROCEDURE add_employee(
+        p_first_name employees.first_name%TYPE,
+        p_last_name employees.last_name%TYPE,
+        p_email employees.email%TYPE,
+        p_job employees.job_id%TYPE DEFAULT 'SA_REP',
+        p_mgr employees.manager_id%TYPE DEFAULT 145,
+        p_sal employees.salary%TYPE DEFAULT 1000,
+        p_comm employees.commission_pct%TYPE DEFAULT 0,
+        p_dept_id employees.department_id%TYPE DEFAULT 30) IS
+    BEGIN
+        IF valid_deptid(p_dept_id) THEN
+            INSERT INTO employees(employee_id, first_name, last_name, email, job_id, manager_id, hire_date, salary, commission_pct, department_id)
+            VALUES (employees_seq.NEXTVAL, p_first_name, p_last_name, p_email, p_job, p_mgr, TRUNC(SYSDATE), p_sal, p_comm, p_dept_id);
+        ELSE
+            RAISE NO_DATA_FOUND;
+        END IF;
+    END add_employee;
+    
+    PROCEDURE get_employee(
+        p_emp_id IN employees.employee_id%TYPE,
+        p_sal  OUT employees.salary%TYPE,
+        p_job  OUT employees.job_id%TYPE) IS
+    BEGIN
+        SELECT salary, job_id INTO p_sal, p_job FROM employees WHERE employee_id = p_emp_id;
+    END get_employee;
+END emp_pkg;
+```
+```sql
+EXECUTE emp_pkg.add_employee('Jane', 'Harris','JAHARRIS', p_deptid => 15)
+EXECUTE emp_pkg.add_employee('David', 'Smith','DASMITH', p_deptid => 80)
+SELECT * FROM employees WHERE last_name = 'Smith';
+```
+![lab11_2](lab11_2.jpg)
+
+## Лаба 12
+
+1.
+```sql
+PROCEDURE add_employee(
+    p_first_name employees.first_name%TYPE,
+    p_last_name employees.last_name%TYPE,
+    p_dept_id employees.department_id%TYPE);
+```
+```sql
+PROCEDURE add_employee(
+    p_first_name employees.first_name%TYPE,
+    p_last_name employees.last_name%TYPE,
+    p_dept_id employees.department_id%TYPE) IS
+    p_email employees.email%type;
+BEGIN
+    p_email := UPPER(SUBSTR(p_first_name, 1, 1) || SUBSTR(p_last_name, 1, 7));
+    add_employee(p_first_name, p_last_name, p_email, p_dept_id => p_dept_id);
+END;
+```
+![lab12_1](lab12_1.jpg)
+
+2.
+```sql
+FUNCTION get_employee(p_emp_id employees.employee_id%TYPE)
+    RETURN employees%ROWTYPE;
+FUNCTION get_employee(p_family_name employees.last_name%TYPE)
+    RETURN employees%ROWTYPE;
+PROCEDURE print_employee(p_rec_emp employees%rowtype);
+```
+```sql
+FUNCTION get_employee(p_emp_id employees.employee_id%type)
+    return employees%rowtype IS
+    rec_emp employees%rowtype;
+BEGIN
+    SELECT * INTO rec_emp FROM employees WHERE employee_id = p_emp_id;
+    RETURN rec_emp;
+END;
+
+FUNCTION get_employee(p_family_name employees.last_name%type)
+    return employees%rowtype IS
+    rec_emp employees%rowtype;
+BEGIN
+    SELECT * INTO rec_emp FROM employees WHERE last_name = p_family_name;
+    RETURN rec_emp;
+END;
+
+PROCEDURE print_employee(p_rec_emp employees%rowtype) IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+    p_rec_emp.department_id ||' '||
+    p_rec_emp.employee_id ||' '||
+    p_rec_emp.first_name ||' '||
+    p_rec_emp.last_name ||' '||
+    p_rec_emp.job_id ||' '||
+    p_rec_emp.salary);
+END;
+```
+```sql
+SET SERVEROUTPUT ON
+BEGIN
+    emp_pkg.print_employee(emp_pkg.get_employee(100));
+    emp_pkg.print_employee(emp_pkg.get_employee('Joplin'));
+END;
+```
+![lab12_2](lab12_2.jpg)
+
+3.
+```sql
+-- ...
+PROCEDURE init_departments;
+-- ...
+```
+```sql
+-- ...
+    TYPE boolean_tab_type IS TABLE OF BOOLEAN INDEX BY BINARY_INTEGER;
+    valid_departments boolean_tab_type;
+-- ...
+    PROCEDURE init_departments IS
+    BEGIN
+        FOR rec IN (SELECT department_id FROM departments) LOOP
+            valid_departments(rec.department_id) := TRUE;
+        END LOOP;
+    END;
+BEGIN
+    init_departments;
+-- ...
+```
+
+4.
+```sql
+FUNCTION valid_deptid(
+    p_dept_id IN departments.department_id%TYPE)
+    RETURN BOOLEAN IS
+BEGIN
+    RETURN valid_departments.exists(p_dept_id);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN FALSE;
+END valid_deptid;
+```
+```sql
+EXECUTE emp_pkg.add_employee('James', 'Bond', 15)
+INSERT INTO departments (department_id, department_name) VALUES (15, 'Security');
+COMMIT;
+EXECUTE emp_pkg.add_employee('James', 'Bond', 15)
+EXECUTE EMP_PKG.INIT_DEPARTMENTS
+EXECUTE emp_pkg.add_employee('James', 'Bond', 15)
+DELETE FROM employees WHERE first_name = 'James' AND last_name = 'Bond';
+DELETE FROM departments WHERE department_id = 15;
+COMMIT;
+EXECUTE EMP_PKG.INIT_DEPARTMENTS
+```
+![lab12_4](lab12_4.jpg)
+
+Сначала вставка не удалась, т.к. нет отдела с id=15, затем не удалась, так как этой инормации нет в INDEX BY таблице, и наконец на третий раз всё получилось.
+
+5.
+```
+а. Ничего не изменилось
+б. Ошибка компиляции - процедура add_employee ссылается на функцию valid_deptid, которая определена ниже
+в. FUNCTION valid_deptid(p_dept_id IN departments.department_id%TYPE)
+RETURN BOOLEAN;
+Теперь всё компилируется без ошибок
+```
 
