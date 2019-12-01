@@ -968,3 +968,98 @@ EXECUTE compile_pkg.make('emp_pkg')
 EXECUTE compile_pkg.make('emp_data')
 ```
 ![lab14_2](lab14_2.jpg)
+
+## Лаба 15
+
+1.
+```sql
+-- ...
+TYPE emp_tab_type IS TABLE OF employees%ROWTYPE;
+-- ...
+PROCEDURE show_employees;
+-- ...
+```
+```sql
+-- ...
+emp_table emp_tab_type;
+-- ...
+PROCEDURE get_employees(p_dept_id employees.department_id%type) IS
+BEGIN
+    SELECT * BULK COLLECT INTO emp_table FROM EMPLOYEES WHERE department_id = p_dept_id;
+END;
+-- ...
+PROCEDURE show_employees IS
+BEGIN
+    IF emp_table IS NOT NULL THEN
+        DBMS_OUTPUT.PUT_LINE('Employees in Package table');
+        FOR i IN 1 .. emp_table.COUNT LOOP
+            print_employee(emp_table(i));
+            END LOOP;
+        END IF;
+END show_employees;
+-- ...
+```
+```sql
+BEGIN
+    emp_pkg.get_employees(30);
+    emp_pkg.show_employees;
+    emp_pkg.get_employees(60);
+    emp_pkg.show_employees;
+END;
+```
+![lab15_1](lab15_1.jpg)
+
+2.
+```sql
+-- ...
+PROCEDURE add_employee(
+    p_first_name employees.first_name%TYPE,
+    p_last_name employees.last_name%TYPE,
+    p_email employees.email%TYPE,
+    p_job employees.job_id%TYPE DEFAULT 'SA_REP',
+    p_mgr employees.manager_id%TYPE DEFAULT 145,
+    p_sal employees.salary%TYPE DEFAULT 1000,
+    p_comm employees.commission_pct%TYPE DEFAULT 0,
+    p_dept_id employees.department_id%TYPE DEFAULT 30) IS
+    PROCEDURE audit_newemp IS
+        PRAGMA AUTONOMOUS_TRANSACTION;
+        user_id VARCHAR2(30) := USER;
+    BEGIN
+        INSERT INTO log_newemp (entry_id, user_id, log_time, name)
+        VALUES (log_newemp_seq.NEXTVAL, user_id, sysdate,p_first_name || ' ' || p_last_name);
+        COMMIT;
+    END audit_newemp;
+BEGIN
+    audit_newemp;
+    IF emp_pkg.valid_deptid(p_dept_id) THEN
+        INSERT INTO employees(employee_id, first_name, last_name, email, job_id, manager_id, hire_date, salary, commission_pct, department_id)
+        VALUES (employees_seq.NEXTVAL, p_first_name, p_last_name, p_email, p_job, p_mgr, TRUNC(SYSDATE), p_sal, p_comm, p_dept_id);
+    ELSE
+        RAISE NO_DATA_FOUND;
+    END IF;
+END add_employee;
+-- ...
+```
+```sql
+BEGIN
+    emp_pkg.add_employee('Max', 'Smart', 20);
+    emp_pkg.add_employee('Clark', 'Kent', 10);
+END;
+/
+SELECT * FROM employees WHERE last_name IN ('Kent', 'Smart');
+SELECT * FROM log_newemp;
+```
+![lab15_2](lab15_2.jpg)
+
+Вставка прошла успешно, в журнале 2 записи.
+
+```sql
+EXECUTE emp_pkg.add_employee('Max', 'Smart', 20)
+EXECUTE emp_pkg.add_employee('Clark', 'Kent', 10)
+ROLLBACK;
+SELECT * FROM employees WHERE last_name IN ('Kent', 'Smart');
+SELECT * FROM log_newemp;
+```
+![lab15_3](lab15_3.jpg)
+
+При откате новые строки были удалены из employees, но остались в log_newemp, так как добавлялись туда в автономной транзакции.
