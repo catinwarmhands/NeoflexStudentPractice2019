@@ -1068,10 +1068,279 @@ SELECT * FROM log_newemp;
 
 ## Лаба 16
 
+1.
+```sql
+CREATE OR REPLACE PROCEDURE check_salary (p_the_job VARCHAR2, p_the_salary NUMBER) IS
+    v_minsal jobs.min_salary%type;
+    v_maxsal jobs.max_salary%type;
+BEGIN
+    SELECT min_salary, max_salary INTO v_minsal, v_maxsal FROM jobs WHERE job_id = UPPER(p_the_job);
+    IF p_the_salary NOT BETWEEN v_minsal AND v_maxsal THEN
+        RAISE_APPLICATION_ERROR(-20100,
+        'Invalid salary $'   || p_the_salary || '. ' ||
+        'Salaries for job '  || p_the_job ||
+        ' must be between $' || v_minsal || ' and $' || v_maxsal);
+    END IF;
+END;
+```
+```sql
+CREATE OR REPLACE TRIGGER check_salary_trg
+BEFORE INSERT OR UPDATE OF job_id, salary
+ON employees
+FOR EACH ROW
+BEGIN
+    check_salary(:new.job_id, :new.salary);
+END;
+```
+
+2.
+```sql
+EXECUTE emp_pkg.add_employee('Eleanor', 'Beh', 30)
+UPDATE employees SET salary = 2000 WHERE employee_id = 115;
+UPDATE employees SET job_id = 'HR_REP' WHERE employee_id = 115;
+UPDATE employees SET salary = 2800 WHERE employee_id = 115;
+```
+![](lab16_2.jpg)
+
+```
+1. В add_employee оклад по умолчанию задан как $1000, что вызвало исключение в триггере.
+2. Оклад меньше минимального
+3. Оклад меньше минимального на новой должности
+4. update прошёл успешно
+```
+
+3.
+```sql
+CREATE OR REPLACE TRIGGER check_salary_trg
+BEFORE INSERT OR UPDATE OF job_id, salary
+ON employees
+FOR EACH ROW
+WHEN (new.job_id <> NVL(old.job_id,'?') OR new.salary <> NVL(old.salary,0))
+BEGIN
+    check_salary(:new.job_id, :new.salary);
+END;
+```
+```sql
+EXECUTE emp_pkg.add_employee('Eleanor', 'Beh', 'EBEH', p_job => 'IT_PROG', p_sal => 5000);
+UPDATE employees SET salary = salary + 2000 WHERE job_id = 'IT_PROG';
+UPDATE employees SET salary = 9000 WHERE employee_id = (SELECT employee_id FROM employees WHERE last_name = 'Beh');
+UPDATE employees SET job_id = 'ST_MAN' WHERE employee_id = (SELECT employee_id FROM employees WHERE last_name = 'Beh');
+```
+![](lab16_3.jpg)
+
+```
+1. Добавление сотруника прошло успешно
+2. Оклад больше максимального
+3. update прошёл успешно
+4. Оклад меньше минимального
+```
+
+4.
+```sql
+CREATE OR REPLACE TRIGGER delete_emp_trg
+BEFORE DELETE ON employees
+DECLARE
+    the_day VARCHAR2(3) := TO_CHAR(SYSDATE, 'DY');
+    the_hour PLS_INTEGER := TO_NUMBER(TO_CHAR(SYSDATE, 'HH24'));
+BEGIN
+    IF (the_hour BETWEEN 9 AND 18) AND (the_day NOT IN ('SAT','SUN')) THEN
+        RAISE_APPLICATION_ERROR(-20150, 'Employee records cannot be deleted during the business hours of 9AM and 6PM');
+    END IF;
+END;
+```
+```sql
+DELETE FROM employees WHERE job_id = 'SA_REP' AND department_id IS NULL;
+```
+![](lab16_4.jpg)
+
+Удаление прошло успешно, так как я делаю эту лабу в 2 часа ночи в понедельник.
+
 ## Лаба 17
 
+1.
+```sql
+-- ...
+PROCEDURE set_salary(p_jobid VARCHAR2, p_min_salary NUMBER);
+-- ...
+```
+```sql
+-- ...
+PROCEDURE set_salary(p_jobid VARCHAR2, p_min_salary NUMBER) IS
+    CURSOR cur_emp IS SELECT employee_id FROM employees WHERE job_id = p_jobid AND salary < p_min_salary;
+BEGIN
+    FOR rec_emp IN cur_emp LOOP
+        UPDATE employees SET salary = p_min_salary WHERE employee_id = rec_emp.employee_id;
+    END LOOP;
+END set_salary;
+-- ...
+```
+```sql
+CREATE OR REPLACE TRIGGER upd_minsalary_trg
+AFTER UPDATE OF min_salary ON JOBS
+FOR EACH ROW
+BEGIN
+    emp_pkg.set_salary(:new.job_id, :new.min_salary);
+END;
+```
+```sql
+SELECT employee_id, first_name, last_name, salary FROM employees WHERE job_id = 'IT_PROG';
+UPDATE jobs SET min_salary = min_salary + 1000 WHERE job_id = 'IT_PROG';
+```
+![](lab17_1.jpg)
+
+2.
+```sql
+CREATE OR REPLACE PACKAGE jobs_pkg IS
+    PROCEDURE initialize;
+    FUNCTION get_minsalary(p_jobid VARCHAR2) RETURN NUMBER;
+    FUNCTION get_maxsalary(p_jobid VARCHAR2) RETURN NUMBER;
+    PROCEDURE set_minsalary(p_jobid VARCHAR2, p_min_salary NUMBER);
+    PROCEDURE set_maxsalary(p_jobid VARCHAR2, p_max_salary NUMBER);
+END jobs_pkg;
+```
+```sql
+CREATE OR REPLACE PACKAGE BODY jobs_pkg IS
+    TYPE jobs_tab_type IS TABLE OF jobs%rowtype INDEX BY jobs.job_id%type;
+    jobstab jobs_tab_type;
+    
+    PROCEDURE initialize IS
+    BEGIN
+        FOR rec_job IN (SELECT * FROM jobs) LOOP
+            jobstab(rec_job.job_id) := rec_job;
+        END LOOP;
+    END initialize;
+    
+    FUNCTION get_minsalary(p_jobid VARCHAR2) RETURN NUMBER IS
+    BEGIN
+        RETURN jobstab(p_jobid).min_salary;
+    END get_minsalary;
+    
+    FUNCTION get_maxsalary(p_jobid VARCHAR2) RETURN NUMBER IS
+    BEGIN
+        RETURN jobstab(p_jobid).max_salary;
+    END get_maxsalary;
+    
+    PROCEDURE set_minsalary(p_jobid VARCHAR2, p_min_salary NUMBER) IS
+    BEGIN
+        jobstab(p_jobid).min_salary := p_min_salary;
+    END set_minsalary;
+    
+    PROCEDURE set_maxsalary(p_jobid VARCHAR2, p_max_salary NUMBER) IS
+    BEGIN
+        jobstab(p_jobid).max_salary := p_max_salary;
+    END set_maxsalary;
+END jobs_pkg;
+```
+```sql
+create or replace PROCEDURE check_salary (p_the_job VARCHAR2, p_the_salary NUMBER) IS
+    v_minsal jobs.min_salary%type;
+    v_maxsal jobs.max_salary%type;
+BEGIN
+    v_minsal := jobs_pkg.get_minsalary(UPPER(p_the_job));
+    v_maxsal := jobs_pkg.get_maxsalary(UPPER(p_the_job));
+    IF p_the_salary NOT BETWEEN v_minsal AND v_maxsal THEN
+        RAISE_APPLICATION_ERROR(-20100,
+        'Invalid salary $'   || p_the_salary || '. ' ||
+        'Salaries for job '  || p_the_job ||
+        ' must be between $' || v_minsal || ' and $' || v_maxsal);
+    END IF;
+END;
+```
+```sql
+CREATE OR REPLACE TRIGGER init_jobpkg_trg
+BEFORE INSERT OR UPDATE ON jobs
+    CALL jobs_pkg.initialize
+```
+```sql
+SELECT employee_id, last_name, salary FROM employees WHERE job_id = 'IT_PROG';
+UPDATE jobs SET min_salary = min_salary + 1000 WHERE job_id = 'IT_PROG';
+SELECT employee_id, last_name, salary FROM employees WHERE job_id = 'IT_PROG';
+```
+![](lab17_2.jpg)
+
+Austin, Pataballa и Lorentz.
+
+3.
+```sql
+EXECUTE emp_pkg.add_employee('Steve', 'Morse', 'SMORSE', p_sal => 6500)
+```
+Никаких ошибок не возникло, хз почему.
+```sql
+create or replace TRIGGER employee_initjobs_trg
+BEFORE INSERT OR UPDATE OF job_id, salary ON employees
+    CALL jobs_pkg.initialize
+```
+```sql
+SELECT * FROM employees WHERE last_name = 'Morse';
+```
+![](lab17_3.jpg)
+
 ## Лаба 18
+1. Гора параметров
+2. 
+```sql
+ALTER SESSION SET PLSQL_CODE_TYPE = 'NATIVE';
+ALTER PROCEDURE add_job_history COMPILE;
+ALTER SESSION SET PLSQL_CODE_TYPE = 'INTERPRETED';
+```
+
+3. ок
+4. 
+
+![](lab18_4.jpg)
+
+5. да
+6. ок
+7. нет
+8.
+```sql
+SELECT * FROM user_errors;
+```
+![](lab18_8.jpg)
+
+9.
+```sql
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(DBMS_WARNING.GET_CATEGORY(5050));
+    DBMS_OUTPUT.PUT_LINE(DBMS_WARNING.GET_CATEGORY(6075));
+    DBMS_OUTPUT.PUT_LINE(DBMS_WARNING.GET_CATEGORY(7100));
+END;
+```
+![](lab18_9.jpg)
 
 ## Лаба 19
 
+1. ок
+2. 
+```sql
+SET SERVEROUTPUT ON
+CALL DBMS_PREPROCESSOR.PRINT_POST_PROCESSED_SOURCE('PACKAGE', USER, 'MY_PKG');
+```
+![](lab19_2.jpg)
+
+3. 
+```sql
+BEGIN
+    $IF DBMS_DB_VERSION.VER_LE_10_1 $THEN
+        $ERROR 'unsupported database release.'
+    $END
+    $ELSE
+        DBMS_OUTPUT.PUT_LINE ('Release ' || DBMS_DB_VERSION.VERSION || '.' || DBMS_DB_VERSION.RELEASE || ' is supported.');
+    $END
+END;
+```
+![](lab19_3.jpg)
+
+4. ок
+
+
 ## Лаба 20
+
+1.
+```sql
+EXECUTE deptree_fill('PROCEDURE', USER, 'add_employee')
+SELECT * FROM IDEPTREE;
+EXECUTE deptree_fill('FUNCTION', USER, 'valid_deptid')
+SELECT * FROM IDEPTREE;
+```
+![](lab20_1.jpg)
